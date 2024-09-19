@@ -20,7 +20,7 @@ def http_get_request(url):
 
 if __name__ == "__main__":
     # Example URL (replace with your desired endpoint)
-    url = "http://example.com"
+    url = "http://www.whitedisplay.com/"
     
     # Make an HTTP GET request to the specified URL
     http_get_request(url)
