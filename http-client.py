@@ -1,5 +1,6 @@
 import json
 import requests
+import sseclient
 
 def http_get_request(url):
     try:
@@ -22,9 +23,9 @@ def http_get_request(url):
 
 def http_post_request(url):
     data = {
-        "username":"Test-Joshua", 
-        "password":"TestMonitor123!!", 
-        "customerID": "100251", 
+        "username":"joshua.tuttlies", 
+        "password":"AlarmMonitorManagement1!", 
+        "customerIds": ["100251"], 
         "startDate": "2024-09-15T14:00:00.000Z", 
         "endDate":"2024-09-15T15:00:00.000Z"
         }
@@ -33,7 +34,9 @@ def http_post_request(url):
     print(data)
     print(data.keys())
     body = json.dumps(data)
-    requests.head
+    r= requests.post(url=url, json=data)
+    print(f"status code: {r.status_code}")
+    print(f"response: {r.json()}")
 
 def test_url():
     r = requests.get('https://api.github.com/repos/psf/requests/git/commits/a050faf084662f3a352dd1a941f2c7c9f886d4ad')
@@ -48,12 +51,30 @@ def getSession(url):
     r=s.get(url)
     print(r.text)
 
+def sse_clinet(url):
+    response =requests.get(url, stream=True)
+    #client = sseclient.SSEClient(response)
+
+    print(f"Response headers: {response.headers["content-type"]} \n")
+    print(f"Response connection: {response.connection}\n")
+    print(f"response connection config: {response.connection.config}")
+    #for event in response:
+    #    print(f"Recieved event: {event.data}")
+
+    client = sseclient.SSEClient(url)
+    print(f"sseclient: {client}")
+    for event in client:
+        print(f"Event: {event}")
+
 if __name__ == "__main__":
     # Example URL (replace with your desired endpoint)
-    url = "https://dashboard.blaulichtsms.net/#/login?token=f587305d-cdfb-4a29-b70a-8b24ff48fee9NwtpaiySqd"
-    #testBase = "https://api-staging.blaulichtsms.net/blaulicht"
-    #listUrl = "/api/alarm/v1/list"
-    #url = testBase + listUrl
+    monitorUrl = "https://dashboard.blaulichtsms.net/#/login?token=f587305d-cdfb-4a29-b70a-8b24ff48fee9NwtpaiySqd"
+    
+    testBase = "https://api-staging.blaulichtsms.net/blaulicht"
+    listUrl = "/api/alarm/v1/list"
+    stackedUrl = testBase + listUrl
+
+    sseTestUrl = "http://127.0.0.1:5000/stream"
 
     # Make an HTTP GET request to the specified URL
     # http_get_request(url)
@@ -65,9 +86,17 @@ if __name__ == "__main__":
     #test_url()
     #http_post_request(url)
 
-    getSession(url)
+    #getSession(url)
 
+    http_post_request(stackedUrl)
 
+    ## needs automatic alarm trigger user 
 
-#https://requests.readthedocs.io/en/latest/user/advanced/#http-verbs
-#https://github.com/blaulichtSMS/docs/blob/master/alarm_api_v1.md
+    '''try:
+        print(requests.get("http://127.0.0.1:5000").text)
+        print("Connecting to SSE stream...")
+        sse_clinet(monitorUrl)
+    except KeyboardInterrupt:
+        print("Connection interrupted by keyboard")
+'''
+
