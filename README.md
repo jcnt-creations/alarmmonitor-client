@@ -15,3 +15,10 @@ python3 http_client.py
 
 ## Changing to a SSE Client
 I will try to solve this by using a sse client. This should connect to the server and wait for events send by the server. I hope, like this I could identify and react to emergency calls.
+
+
+## References
+https://requests.readthedocs.io/en/latest/user/quickstart/
+https://requests.readthedocs.io/en/latest/user/advanced/
+https://github.com/blaulichtSMS/docs/blob/master/alarm_api_v1.md
+https://de.wikipedia.org/wiki/HTTP-Statuscode
