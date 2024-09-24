@@ -12,3 +12,6 @@ sudo apt-get install python3-requests
 
 To execute the programm its:
 python3 http_client.py
+
+## Changing to a SSE Client
+I will try to solve this by using a sse client. This should connect to the server and wait for events send by the server. I hope, like this I could identify and react to emergency calls.
